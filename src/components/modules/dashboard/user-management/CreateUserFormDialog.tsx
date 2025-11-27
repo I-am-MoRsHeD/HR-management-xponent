@@ -171,7 +171,9 @@ const CreateUserFormDialog = ({ open, onClose, onSuccess }: CreateUserFormProps)
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Salary</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
+                                        <FormControl>
+                                            <Input {...field} type="number" onChange={(e) => field.onChange(Number(e.target.value))} />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}

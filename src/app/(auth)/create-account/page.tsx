@@ -1,5 +1,6 @@
 "use client";
 
+import { createAccount } from "@/app/actions/auth/create-account";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,21 +18,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Role } from "@/types/user.interface";
+import { createAccountSchema } from "@/zod/auth.validation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
-type CreateAccountForm = {
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  designation: string;
-  department: string;
-  role: "hr" | "manager" | "employee";
-};
 
 export default function Page() {
-  const form = useForm<CreateAccountForm>({
+  const router = useRouter();
+  const form = useForm<z.infer<typeof createAccountSchema>>({
     defaultValues: {
       name: "",
       email: "",
@@ -39,12 +38,27 @@ export default function Page() {
       password: "",
       designation: "",
       department: "",
-      role: "employee",
+      role: Role.HR,
     },
   });
 
-  const onSubmit = async (data: CreateAccountForm) => {
-    console.log("create-account data", data);
+  const onSubmit = async (data: z.infer<typeof createAccountSchema>) => {
+    const toastId = toast.loading("Creating account...!!")
+    const updatedPayload = {
+      ...data,
+      authToken: data?.role
+    }
+    try {
+      const result = await createAccount(updatedPayload);
+      if (result?.success) {
+        toast.success(result?.message, { id: toastId });
+        router.push('/');
+      } else {
+        toast.error(result?.message)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -158,8 +172,26 @@ export default function Page() {
                     )}
                   />
                 </div>
-
                 <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl className="w-full">
+                          <SelectTrigger><SelectValue placeholder="Select role" /></SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value={Role.HR}>HR</SelectItem>
+                          <SelectItem value={Role.MANAGER}>Manager</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* <FormField
                   control={form.control}
                   name="role"
                   render={({ field }) => (
@@ -178,7 +210,7 @@ export default function Page() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 {/* Salary and Contract Expire removed per request */}
 

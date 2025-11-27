@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -14,8 +14,9 @@ datasource db {
 }
 
 enum Role {
-  hr
-  manager
+  HR
+  MANAGER
+  EMPLOYEE
 }
 
 model User {
@@ -32,7 +33,7 @@ model User {
   joiningDate    DateTime?
   salary         Int?
   contractExpire DateTime?
-  
+
   attendances    Attendance[]
   performances   Performance[]
   payrolls       Payroll[]     @relation("PayrollFor")
@@ -40,32 +41,32 @@ model User {
 }
 
 model Attendance {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   date       DateTime
   checkIn    DateTime
   checkOut   DateTime?
   employeeId String
-  employee   User @relation(fields: [employeeId], references: [id])
+  employee   User      @relation(fields: [employeeId], references: [id])
 }
 
 model Performance {
-  id                String   @id @default(uuid())
+  id                String    @id @default(uuid())
   title             String
   assignAt          DateTime
   completedAt       DateTime?
   performanceRating Int
   employeeId        String
-  employee          User @relation(fields: [employeeId], references: [id])
+  employee          User      @relation(fields: [employeeId], references: [id])
 }
 
 model Payroll {
-  id            String   @id @default(uuid())
-  payrollMonth  DateTime
-  totalAmount   Int
-  reduceAmount  Int?
-  payrollForId  String
-  payrollFor    User @relation("PayrollFor", fields: [payrollForId], references: [id])
-  createdById   String
-  createdBy     User @relation("PayrollCreatedBy", fields: [createdById], references: [id])
-  createdAt     DateTime @default(now())
+  id           String   @id @default(uuid())
+  payrollMonth DateTime
+  totalAmount  Int
+  reduceAmount Int?
+  payrollForId String
+  payrollFor   User     @relation("PayrollFor", fields: [payrollForId], references: [id])
+  createdById  String
+  createdBy    User     @relation("PayrollCreatedBy", fields: [createdById], references: [id])
+  createdAt    DateTime @default(now())
 }

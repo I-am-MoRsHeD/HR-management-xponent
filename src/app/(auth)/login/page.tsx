@@ -19,8 +19,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { toast } from "sonner";
+import { login } from "@/app/actions/auth/login";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -29,7 +33,19 @@ export default function Page() {
   });
 
   const onSubmit = async (data: { email: string; password: string }) => {
-    console.log("data", data);
+    const toastId = toast.loading("Logging in...!!")
+
+    try {
+      const result = await login(data);
+      if (result?.success) {
+        toast.success(result?.message, { id: toastId });
+        router.push('/');
+      } else {
+        toast.error(result?.message)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">

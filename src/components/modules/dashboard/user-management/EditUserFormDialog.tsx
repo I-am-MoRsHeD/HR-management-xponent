@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User } from "@/types/user.interface";
 import { formSchema } from "@/zod/auth.validation";
+import { useEffect } from "react";
 
 interface EditUserFormProps {
     user: User;
@@ -32,20 +33,26 @@ interface EditUserFormProps {
 const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: user?.name,
-            email: user?.email,
-            phone: user?.phone,
-            password: user?.password,
-            address: user?.address,
-            designation: user?.designation,
-            department: user?.department,
-            role: user?.role,
-            joiningDate: user?.joiningDate,
-            salary: user?.salary,
-            contractExpire: user?.contractExpire,
-        },
+        defaultValues: user,
     });
+
+    useEffect(() => {
+        if (user) {
+            form.reset({
+                name: user?.name,
+                email: user?.email,
+                phone: user?.phone,
+                password: user?.password,
+                address: user?.address,
+                designation: user?.designation,
+                department: user?.department,
+                role: user?.role,
+                joiningDate: user?.joiningDate,
+                salary: user?.salary,
+                contractExpire: user?.contractExpire,
+            });
+        }
+    }, [user, form]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
@@ -62,7 +69,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 p-4 max-w-xl mx-auto">
                         <FormField
                             control={form.control}
-                            defaultValue={user?.name}
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
@@ -76,7 +82,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.email}
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
@@ -89,7 +94,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.phone}
                                 name="phone"
                                 render={({ field }) => (
                                     <FormItem>
@@ -102,7 +106,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.password}
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
@@ -115,7 +118,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.address}
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem>
@@ -128,7 +130,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.designation}
                                 name="designation"
                                 render={({ field }) => (
                                     <FormItem>
@@ -141,7 +142,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.department}
                                 name="department"
                                 render={({ field }) => (
                                     <FormItem>
@@ -154,7 +154,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.role}
                                 name="role"
                                 render={({ field }) => (
                                     <FormItem>
@@ -176,7 +175,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.salary}
                                 name="salary"
                                 render={({ field }) => (
                                     <FormItem>
@@ -189,7 +187,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.joiningDate}
                                 name="joiningDate"
                                 render={({ field }) => (
                                     <FormItem>
@@ -202,7 +199,6 @@ const EditUserFormDialog = ({ user, open, onClose, onSuccess }: EditUserFormProp
 
                             <FormField
                                 control={form.control}
-                                defaultValue={user?.contractExpire}
                                 name="contractExpire"
                                 render={({ field }) => (
                                     <FormItem>

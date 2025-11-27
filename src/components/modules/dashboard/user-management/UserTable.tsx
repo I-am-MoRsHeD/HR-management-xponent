@@ -81,7 +81,6 @@ const UserTable = () => {
                 onOpenChange={() => setDeleteModalOpen(false)}
                 onConfirm={confirmDelete}
                 title='Delete User'
-                itemName={user?.name || ""}
                 isDeleting={isDeleting}
             />
 

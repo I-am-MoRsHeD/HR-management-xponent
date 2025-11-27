@@ -14,11 +14,10 @@ interface DeleteConfirmationDialogProps {
     onOpenChange: (open: boolean) => void;
     onConfirm: () => void;
     title?: string;
-    itemName?: string;
     isDeleting: boolean;
 }
 
-const DeleteConfirmationDialog = ({ open, onOpenChange, onConfirm, title, itemName, isDeleting }: DeleteConfirmationDialogProps) => {
+const DeleteConfirmationDialog = ({ open, onOpenChange, onConfirm, title, isDeleting }: DeleteConfirmationDialogProps) => {
 
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -26,7 +25,7 @@ const DeleteConfirmationDialog = ({ open, onOpenChange, onConfirm, title, itemNa
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This will delete <strong>{itemName}</strong>. This action cannot
+                        This will delete <strong>forever</strong>. This action cannot
                         be undone.
                     </AlertDialogDescription>
                 </AlertDialogHeader>

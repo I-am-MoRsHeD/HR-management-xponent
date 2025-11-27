@@ -1,5 +1,14 @@
-import React from "react";
+import AttendancePageHeader from "@/components/modules/dashboard/attendance/AttendancePageHeader";
+import AttendanceTable from "@/components/modules/dashboard/attendance/AttendanceTable";
 
-export default function page() {
-  return <div>This is attendance page</div>;
-}
+
+const AttendencePage = () => {
+  return (
+    <div className="space-y-4">
+      <AttendancePageHeader />
+      <AttendanceTable />
+    </div>
+  );
+};
+
+export default AttendencePage;

@@ -1,301 +1,73 @@
-**📄 Coding Test — HR Management Application**
-==============================================
-
-**Deadline:** 25 November 2025 at 11:59 PM, **Goal:** Evaluate your ability to build a small but functional full-stack application using Next.js, Prisma, React Hook Form, and Zod.
-
-**🎯 Project Overview**
-=======================
-
-You will build a **simple HR Management application** where two user roles exist:
-
-### **1\. HR**
-
-*   Manage User Information (Create, Update, Delete)
-    
-*   Manage Attendance (Create, Update, Delete)
-    
-*   Manage Payroll
-    
-*   View Performance (read-only)
-    
-
-### **2\. Manager**
-
-*   Manage Performance (Assign tasks + update rating)
-    
-*   View User Information (read-only)
-    
-*   View Attendance (read-only)
-    
-*   View payroll (read-only)
-    
-
-**Note:** There is **no need to implement the Employee flow**.
-
-**🧩 Functional Requirements**
-==============================
-
-**1\. Authentication Requirement**
-==================================
-
-You may implement authentication using **either** of the following:
--------------------------------------------------------------------
-
-### **Option A — NextAuth**
-
-*   Use Credentials Provider
-    
-*   Store users in the provided Prisma database
-    
-*   Restrict routes based on role (HR, Manager)
-    
-
-### **Option B — Manual Authentication (JWT)**
-
-*   Implement custom sign-in logic
-    
-*   Issue JWT on login
-    
-*   Protect server actions + pages using middleware
-    
-*   Store password hashes (never plain text)
-    
-
-**You may choose whichever method you are more comfortable with.**
-------------------------------------------------------------------
-
-**2\. User Management (HR only)**
----------------------------------
-
-A simple CRUD form for user records.
-
-### **Required Fields:**
-
-*   name
-    
-*   email
-    
-*   phone
-    
-*   password
-    
-*   authToken
-    
-*   address
-    
-*   designation
-    
-*   department
-    
-*   role: hr | manager | employee
-    
-*   joiningDate
-    
-*   salary
-    
-*   contractExpire
-    
-
-**3\. Performance Module (Manager only)**
------------------------------------------
-
-The manager should be able to:
-
-*   Assign a task to an employee
-    
-*   Update completion date
-    
-*   Update performance rating (1–5)
-    
-
-### **Fields:**
-
-*   employee (relation to User)
-    
-*   title
-    
-*   assignAt
-    
-*   completedAt (optional)
-    
-*   performanceRating (1–5)
-    
-
-**4\. Attendance Module**
--------------------------
-
-### **HR:**
-
-*   Add attendance
-    
-*   Edit attendance
-    
-*   Delete attendance
-    
-
-### **Manager:**
-
-*   View only
-    
-
-### **Fields:**
-
-*   employee
-    
-*   date
-    
-*   checkIn
-    
-*   checkOut
-    
+# HR Management Application
 
-**5\. Payroll Module (HR only)**
---------------------------------
+A simple HR Management app built with **Next.js**, **Prisma**, **React Hook Form**, **Zod**, and **shadcn/ui**.
 
-### **Steps to generate payroll:**
+---
 
-1.  Click **Create Payroll**
-    
-2.  A modal opens with:
-    
-    *   Select User (dropdown)
-        
-    *   Select Month (dropdown)
-        
-3.  Calculation (read-only):workingDays = 22
-    
+## Features
 
-payable = (salary / 22) \* attendanceDays
+### HR
+- Manage Users (Create, Update, Delete)
+- Manage Attendance (Create, Update, Delete)
+- Manage Payroll
+- View Performance (read-only)
 
-1.  Confirm → save payroll
-    
+### Manager
+- Assign and Update Performance Tasks
+- View Users, Attendance, and Payroll (read-only)
 
-### **Required Fields:**
+### Common Features
+- Authentication (NextAuth or JWT)
+- Role-based access
+- Form validation with **Zod**
+- CRUD operations with modal messages
 
-*   payrollFor
-    
-*   payrollMonth
-    
-*   totalAmount
-    
-*   reduceAmount (optional)
-    
-*   createdBy
-    
+---
 
-**⚙️ Technical Requirements**
-=============================
+## Live URL 
 
-**Mandatory Technologies**
---------------------------
+URL = https://github.com/I-am-MoRsHeD/HR-management-xponent.git
 
-You must use:
+---
 
-*   **Next.js** (App Router)
-    
-*   **shadcn/ui**
-    
-*   **React Hook Form**
-    
-*   **Zod** (schema validation)
-    
-*   **Prisma ORM**
-    
-*   **Database:** your choice (e.g., PostgreSQL/MongoDB)
-    
+## Credentials
 
-**🧪 Coding Tasks**
-===================
+HR -> hr@gmail.com / 123456A@a
+Manager -> manager@gmail.com /123456A@a
 
-### **✔ Zod Validation (Required)**
+---
 
-Every form must:
+## Setup Instructions
 
-*   Use a Zod schema
-    
-*   Display validation errors
-    
-*   Disable the submit button until the form is valid
-    
+1. Clone the repository:
+```bash
+git clone https://github.com/I-am-MoRsHeD/HR-management-xponent.git
+```
 
-### **✔ Proper Button States (Optional)**
+2. Install dependencies:
+```bash
+bun i 
+#or
+pnpm i
+```
 
-*   Disable buttons while submitting
-    
-*   Disable buttons if required fields are empty or invalid
-    
+3. Configure environment variables:
+```bash 
+DATABASE_URL=db_url
 
-### **✔ Modal Messages (Optional)**
+JWT_ACCESS_SECRET=token_secret
+JWT_ACCESS_EXPIRES=secret_expries
 
-Every modal action (create/update/delete) must show:
+BCRYPT_SALT_ROUNDS=salt_rounds
+```
 
-*   A success message, or
-    
-*   An error message
-    
+4. Run Prisma migrations:
+```bash
+npx prisma migrate dev
+```
 
-**🚀 Setup Instructions**
-=========================
+5. Start the development server :
+```bash
+bun dev
+```
 
-We will provide you with the starter project structure and database schema at:
-
-🔗 https://github.com/mokhles018/HR-Management-Test
-
-Please follow these steps:
-
-### **1\. Clone the repository**: git clone https://github.com/mokhles018/HR-Management-Test
-
-### **2\. Install dependencies**
-
-pnpm install
-
-### **3\. Configure environment**
-
-DATABASE\_URL=’’
-
-more..
-
-### **4\. Run Prisma migrations**
-
-pnpm prisma migrate dev
-
-### **5\. Start the project**
-
-pnpm run dev
-
-**📤 What You Must Submit**
-===========================
-
-1️⃣ **GitHub Repository** Push the full project to a public branch (e.g., submission). Environment variables, credentials, and the live link must be included in the **README.md**.
-
-2️⃣ **Live Deployment** Deploy on Vercel / Netlify / Railway and share the live URL.
-
-3️⃣ **Login Credentials** Provide:
-
-*   **HR Account**
-    
-*   **Manager Account**Example:
-    
-
-HR → hr@example.com / 123456
-
-Manager → manager@example.com / 123456
-
-4️⃣ **Submitted Emails**mokhles.xponent@gmail.comgazinafis.xponent@gmail.com
-
-**Note:** README.md must contain the env file, login credentials, and live deployment link. GitHub link should be shared with the mentioned email addresses.
-
-**📝 Evaluation Criteria**
-==========================
-
-We will evaluate:
-
-*   Correct use of **Next.js App Router**
-    
-*   Clean UI using **shadcn**
-    
-*   Proper **Zod validation**
-    
-*   Button disabled states implemented correctly
-    
-*   Code structure and readability

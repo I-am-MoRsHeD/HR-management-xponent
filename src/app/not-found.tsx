@@ -26,13 +26,13 @@ export default function NotFound() {
             Page Not Found
           </CardTitle>
           <CardDescription className="text-gray-600 dark:text-gray-400">
-            Sorry, we couldn't find the page you're looking for.
+            Sorry, we could not find the page you are looking for.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-3 mt-1">
             <Button
-              variant="transparent"
+              variant="default"
               className="flex-1 size-fit px-0 bg-gray-100 cursor-pointer"
               onClick={() => router.back()}
             >
@@ -41,7 +41,7 @@ export default function NotFound() {
             </Button>
             <Button
               asChild
-              variant="transparent"
+              variant="default"
               className="flex-1 size-fit px-0 bg-gray-100 cursor-pointer"
             >
               <Link href="/" className="flex items-center justify-center gap-2">

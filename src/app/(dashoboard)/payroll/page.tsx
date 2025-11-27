@@ -1,5 +1,12 @@
-import React from "react";
+import PayrollPageHeader from "@/components/modules/dashboard/payroll/PayrollPageHeader";
 
-export default function page() {
-  return <div>This is payroll page</div>;
-}
+
+const PayrollPage = () => {
+  return (
+    <div>
+      <PayrollPageHeader />
+    </div>
+  );
+};
+
+export default PayrollPage;

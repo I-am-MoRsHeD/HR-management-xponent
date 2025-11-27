@@ -80,7 +80,7 @@ const AttendanceTable = () => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 getRowKey={(user) => user.id}
-                emptyMessage="No users found"
+                emptyMessage="No attendence found"
             />
 
             {/* delete user dialog */}

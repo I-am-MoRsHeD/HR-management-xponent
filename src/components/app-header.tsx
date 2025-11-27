@@ -1,4 +1,4 @@
-import React from "react";
+'use client';
 import { SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
@@ -12,13 +12,28 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { User } from "@/types/user.interface";
+import { logout } from "@/app/actions/auth/logout";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export default function AppHeader() {
-  const session = {
-    user: {
-      email: "",
-    },
+export default function AppHeader({ user }: { user: Partial<User> }) {
+  const router = useRouter();
+  const handleLogOut = async () => {
+    const toastId = toast.loading("Logging out...")
+    try {
+      const result = await logout();
+      if (result?.success) {
+        toast.success(result?.message, { id: toastId });
+        router.push('/login');
+      } else {
+        toast.error(result?.message)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white px-4">
       <SidebarTrigger className="-ml-1" />
@@ -44,8 +59,8 @@ export default function AppHeader() {
             <DropdownMenuSeparator />
 
             {/* Header Login Info */}
-            {session?.user?.email ? (
-              <DropdownMenuItem>
+            {user?.email ? (
+              <DropdownMenuItem onClick={handleLogOut}>
                 <span className="flex items-center gap-1">
                   <LogOut /> Sign Out
                 </span>

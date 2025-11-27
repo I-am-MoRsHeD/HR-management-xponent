@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 import type React from "react";
+import { getUser } from "../actions/auth/getUser";
+import { User } from "@/types/user.interface";
 
 export const metadata: Metadata = {
   title: "ABC ERP - Enterprise Resource Planning",
@@ -19,12 +21,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { user } = await getUser();
+
   return (
     <div lang="en" className="light">
       <SidebarProvider defaultOpen={true}>
         <AppSidebar />
         <SidebarInset>
-          <AppHeader />
+          <AppHeader user={user as Partial<User>} />
           <main className="p-6">{children}</main>
         </SidebarInset>
       </SidebarProvider>
